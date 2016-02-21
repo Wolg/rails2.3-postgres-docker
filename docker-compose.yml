@@ -1,0 +1,20 @@
+db:
+  build: build/postgres
+  container_name: postgres
+  volumes_from:
+    - dbdata
+  ports:
+    - "5432:5432"
+dbdata:
+  image: postgres:9.4
+  command: /bin/echo pgsql Data container
+web:
+  build: .
+  command: ./script/server
+  container_name: your_application_name
+  volumes:
+    - .:/application
+  ports:
+    - "3000:3000"
+  links:
+    - db
